@@ -44,8 +44,17 @@ if [ $PAM ]; then
     fi
 
     if [ $PAM = "--version" ] 2>/dev/null; then
-        echo "#=========================== VERSION ==================================================#"
-        echo "# Version 1.0.0                                                                        #"
+        NOW=$(git log -p -1 | grep -i Date:)
+        VAL=$(git log --oneline | grep -i -c "v")
+        AFTER=$(git log -p -2 | grep -i Date:)
+        if [ "$AFTER" = "$NOW" ]; then
+            VAL=$(git log --oneline | grep -i -c "v")
+        else
+            VAL=$(expr $VAL + 1 )
+        fi
+        echo ""
+        echo "#======================================================================================#"
+        echo "# Versão do Programa $VAL.0.0                                                             #"
         echo "#======================================================================================#"
         echo ""
         echo "#======================================================================================#"
